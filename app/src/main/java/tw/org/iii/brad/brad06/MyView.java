@@ -18,12 +18,14 @@ public class MyView extends View {
     //因為父類沒有無傳參數建構式故剛extends完會出現編譯錯誤,因沒有建構式(一般類別若不特別註明建構式會去找父類別無傳參數的)
 
     private Paint paint;
-    private LinkedList<LinkedList<HashMap<String, Float>>> lines;
+    private LinkedList<LinkedList<HashMap<String, Float>>> lines, recycle;
+
 
     public MyView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         lines = new LinkedList<>();
+        recycle = new LinkedList<>();
         paint = new Paint();
         paint.setColor(Color.LTGRAY);
         paint.setStrokeWidth(10);
@@ -82,4 +84,25 @@ public class MyView extends View {
                 //Log.v("brad","onTouchEvent()");
         return true; //super.onTouchEvent(event);//false只有剛碰到的一次,其他的東西也都不會觸發,true則會一直觸發onTouch,其他click不觸發,若super則其他click也會觸發
     }
+
+    public void clear(){
+        lines.clear();
+        invalidate();//清完重畫
+    }
+
+
+    public void undo()  {
+        if (lines.size()>0) {
+            recycle.add(lines.removeLast());
+            invalidate();
+        }
+    }
+
+    public void redo() {
+        if (recycle.size()>0) {
+            lines.add(recycle.removeLast());
+            invalidate();
+        }
+    }
+
 }

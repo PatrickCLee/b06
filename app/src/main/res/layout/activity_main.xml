@@ -13,10 +13,39 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:textAllCaps="false"
+            android:onClick="clearMyView"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Undo"
+            android:textAllCaps="false"
+            android:onClick="undo"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Redo"
+            android:textAllCaps="false"
+            android:onClick="redo"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Color"
+            android:textAllCaps="false"
+            android:onClick="chColor"
+            />
 
     </LinearLayout>
 
     <tw.org.iii.brad.brad06.MyView
+        android:id="@+id/myView"
         android:layout_width="0dp"
         android:layout_weight="7"
         android:layout_height="match_parent"
