@@ -16,7 +16,7 @@
 
     </LinearLayout>
 
-    <View
+    <tw.org.iii.brad.brad06.MyView
         android:layout_width="0dp"
         android:layout_weight="7"
         android:layout_height="match_parent"
