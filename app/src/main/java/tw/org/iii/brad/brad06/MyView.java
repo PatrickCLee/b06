@@ -17,12 +17,16 @@ import java.util.LinkedList;
 public class MyView extends View {
     //因為父類沒有無傳參數建構式故剛extends完會出現編譯錯誤,因沒有建構式(一般類別若不特別註明建構式會去找父類別無傳參數的)
 
-    private LinkedList<HashMap<String, Float>> line;
+    private Paint paint;
+    private LinkedList<LinkedList<HashMap<String, Float>>> lines;
 
     public MyView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        line = new LinkedList<>();
+        lines = new LinkedList<>();
+        paint = new Paint();
+        paint.setColor(Color.LTGRAY);
+        paint.setStrokeWidth(10);
         //setBackgroundColor(Color.GREEN);
 
         //        setOnClickListener(new OnClickListener() {
@@ -47,23 +51,33 @@ public class MyView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
              //Log.v("brad","onDraw()");
-        Paint paint = new Paint();
-        paint.setColor(Color.BLUE);
-        paint.setStrokeWidth(10);
-        for (int i = 1; i<line.size(); i++){//從第二點開始巡訪
-            HashMap<String,Float> p0 = line.get(i-1);
-            HashMap<String,Float> p1 = line.get(i);
-            canvas.drawLine(p0.get("x"), p0.get("y"), p1.get("x"), p1.get("y"), paint);
+
+        for(LinkedList<HashMap<String,Float>> line : lines){
+            for (int i = 1; i<line.size(); i++){//從第二點開始巡訪
+                HashMap<String,Float> p0 = line.get(i-1);
+                HashMap<String,Float> p1 = line.get(i);
+                canvas.drawLine(p0.get("x"), p0.get("y"), p1.get("x"), p1.get("y"), paint);
+            }
         }
+
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            //Log.v("brad","Action:down");//剛碰到
+            LinkedList<HashMap<String,Float>> line = new LinkedList<>();
+            lines.add(line);
+        }
         float ex = event.getX(), ey = event.getY();
-        Log.v("brad",ex+" x " + ey );
+                //Log.v("brad",ex+" x " + ey );
         HashMap<String,Float> point = new HashMap<>();
         point.put("x", ex); point.put("y", ey);
-        line.add(point);
+        lines.getLast().add(point);
+
+
         invalidate();   //相當於java所寫的簽名程式的repaint
                 //Log.v("brad","onTouchEvent()");
         return true; //super.onTouchEvent(event);//false只有剛碰到的一次,其他的東西也都不會觸發,true則會一直觸發onTouch,其他click不觸發,若super則其他click也會觸發
