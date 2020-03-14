@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         ColorPickerDialogBuilder
                 .with(this)
                 .setTitle("Choose color")
-                .initialColor(Color.LTGRAY)
+                .initialColor(myView.getColor())
                 .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                 .density(12)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
                         //changeBackgroundColor(selectedColor);
+                        myView.setColor(selectedColor);
                     }
                 })
                 .setNegativeButton("cancel", null)

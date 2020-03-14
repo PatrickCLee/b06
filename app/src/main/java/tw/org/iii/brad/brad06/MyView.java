@@ -19,7 +19,7 @@ public class MyView extends View {
 
     private Paint paint;
     private LinkedList<LinkedList<HashMap<String, Float>>> lines, recycle;
-
+    private int color = Color.LTGRAY;
 
     public MyView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -27,7 +27,7 @@ public class MyView extends View {
         lines = new LinkedList<>();
         recycle = new LinkedList<>();
         paint = new Paint();
-        paint.setColor(Color.LTGRAY);
+        paint.setColor(color);
         paint.setStrokeWidth(10);
         //setBackgroundColor(Color.GREEN);
 
@@ -54,14 +54,26 @@ public class MyView extends View {
         super.onDraw(canvas);
              //Log.v("brad","onDraw()");
 
+
         for(LinkedList<HashMap<String,Float>> line : lines){
-            for (int i = 1; i<line.size(); i++){//從第二點開始巡訪
+            HashMap<String,Float> color = line.get(0);
+            paint.setColor((int)color.get("color").intValue());
+            for (int i = 2; i<line.size(); i++){//從第二點開始巡訪
                 HashMap<String,Float> p0 = line.get(i-1);
                 HashMap<String,Float> p1 = line.get(i);
                 canvas.drawLine(p0.get("x"), p0.get("y"), p1.get("x"), p1.get("y"), paint);
             }
         }
 
+    }
+
+    public void setColor(int newColor){
+        color = newColor;
+        invalidate();
+    }
+
+    public int getColor(){
+        return color;
     }
 
     @Override
@@ -71,6 +83,11 @@ public class MyView extends View {
         if(event.getAction() == MotionEvent.ACTION_DOWN){
             //Log.v("brad","Action:down");//剛碰到
             LinkedList<HashMap<String,Float>> line = new LinkedList<>();
+
+            HashMap<String,Float> setting = new HashMap<>();
+            setting.put("color",(float)color); //int丟到float ok,但此處為Float,故先轉為float後就可auto boxing為Float
+            line.add(setting);
+
             lines.add(line);
         }
         float ex = event.getX(), ey = event.getY();
