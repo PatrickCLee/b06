@@ -4,51 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:layout_weight="1"
+        android:orientation="vertical">
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Clear"
-            android:textAllCaps="false"
             android:onClick="clearMyView"
-            />
+            android:text="Clear"
+            android:textAllCaps="false" />
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Undo"
-            android:textAllCaps="false"
             android:onClick="undo"
-            />
+            android:text="Undo"
+            android:textAllCaps="false" />
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Redo"
-            android:textAllCaps="false"
             android:onClick="redo"
-            />
+            android:text="Redo"
+            android:textAllCaps="false" />
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Color"
-            android:textAllCaps="false"
             android:onClick="chColor"
-            />
+            android:text="Color"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 
+<!--    看下行引入了自訂的MyView  -->
     <tw.org.iii.brad.brad06.MyView
         android:id="@+id/myView"
         android:layout_width="0dp"
-        android:layout_weight="7"
         android:layout_height="match_parent"
-        android:background="#42f56f"
-        />
+        android:layout_weight="7"
+        android:background="#42f56f" />
 </LinearLayout>

@@ -1,5 +1,5 @@
 package tw.org.iii.brad.brad06;
-//註解留著是為了解開來後可以測試
+//簽名程式,註解留著是為了解開來後可以測試
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -21,7 +21,7 @@ public class MyView extends View {
     private LinkedList<LinkedList<HashMap<String, Float>>> lines, recycle;
     private int color = Color.LTGRAY;
 
-    public MyView(Context context, @Nullable AttributeSet attrs) {
+    public MyView(Context context, @Nullable AttributeSet attrs) {//AttributeSet與xml中的屬性有關,此處要帶入此參數才能在mxl檔中叫到此View
         super(context, attrs);
 
         lines = new LinkedList<>();
@@ -34,17 +34,17 @@ public class MyView extends View {
         //        setOnClickListener(new OnClickListener() {
         //            @Override
         //            public void onClick(View v) {
-        //                Log.v("brad","onClick");
+        //                Log.v("brad","onClick");      //click為放開時才觸發
         //            }
         //        });
         //
-        //        setOnLongClickListener(new OnLongClickListener() {
-        //            @Override
-        //            public boolean onLongClick(View v) {
-        //                Log.v("brad","onLongClick()");
-        //                return false;   //若為false,長按一下會先觸發onLongClick,放開再觸發onClick
-        //            }
-        //        });
+//                setOnLongClickListener(new OnLongClickListener() {
+//                    @Override
+//                    public boolean onLongClick(View v) {
+//                        Log.v("brad","onLongClick()");
+//                        return false;   //若為false,長按一下會先觸發onLongClick,放開再觸發onClick
+//                    }
+//                });
 
 
     }
@@ -52,13 +52,13 @@ public class MyView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-             //Log.v("brad","onDraw()");
+             Log.v("brad","onDraw()");
 
 
         for(LinkedList<HashMap<String,Float>> line : lines){
-            HashMap<String,Float> color = line.get(0);
-            paint.setColor((int)color.get("color").intValue());
-            for (int i = 2; i<line.size(); i++){//從第二點開始巡訪
+            HashMap<String,Float> setting = line.get(0);
+            paint.setColor(setting.get("color").intValue()); //取得key為color的值為Float(對應到88行),參考java api可用intValue這招轉為int
+            for (int i = 2; i<line.size(); i++){//從第二筆資料開始巡訪,第二個點到第一個點畫一條線(資料結構起始index為0)
                 HashMap<String,Float> p0 = line.get(i-1);
                 HashMap<String,Float> p1 = line.get(i);
                 canvas.drawLine(p0.get("x"), p0.get("y"), p1.get("x"), p1.get("y"), paint);
@@ -81,10 +81,10 @@ public class MyView extends View {
 
 
         if(event.getAction() == MotionEvent.ACTION_DOWN){
-            //Log.v("brad","Action:down");//剛碰到
-            LinkedList<HashMap<String,Float>> line = new LinkedList<>();
+//            Log.v("brad","Action:down");//剛碰到
+            LinkedList<HashMap<String,Float>> line = new LinkedList<>(); //若是新碰到的一下則創新線
 
-            HashMap<String,Float> setting = new HashMap<>();
+            HashMap<String,Float> setting = new HashMap<>(); //線的第一個值為顏色(取名為setting)
             setting.put("color",(float)color); //int丟到float ok,但此處為Float,故先轉為float後就可auto boxing為Float
             line.add(setting);
 
